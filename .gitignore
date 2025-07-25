@@ -1,29 +1,22 @@
-# .gitignore para proyectos Ruby on Rails
 
-# Archivos de entorno
 .env
-.env.*
 
 # macOS
 .DS_Store
 
-# Logs y temporales
 /log/*
 !/log/.keep
 
 /tmp/*
 !/tmp/.keep
 
-# Archivos de PID
 /tmp/pids/*
 !/tmp/pids/
 !/tmp/pids/.keep
 
-# SQLite
 *.sqlite3
 *.sqlite3-journal
 
-# Archivos de configuración local
 /config/database.yml
 /config/master.key
 /config/credentials/*.key
@@ -35,7 +28,6 @@
 # Bundle
 /vendor/bundle
 
-# Archivos de compilación y cache
 /public/assets
 /public/packs
 /public/packs-test
