@@ -1,0 +1,60 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/customers":
+    get:
+      summary: Retrieves all customers
+      tags:
+      - Customers
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    address:
+                      type: string
+                    orders_count:
+                      type: integer
+                    email:
+                      type: string
+                    phone_number:
+                      type: string
+                    status:
+                      type: string
+                    registered_at:
+                      type: string
+                      format: date-time
+  "/customers/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: customer id
+      schema:
+        type: integer
+    get:
+      summary: Retrieves a customer
+      tags:
+      - Customers
+      responses:
+        '200':
+          description: customer found
+        '404':
+          description: customer not found
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3001

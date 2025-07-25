@@ -1,0 +1,63 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/orders":
+    post:
+      summary: Create an order
+      tags:
+      - Orders
+      parameters: []
+      responses:
+        '201':
+          description: order created
+        '422':
+          description: customer not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                order:
+                  type: object
+                  properties:
+                    customer_id:
+                      type: integer
+                    product_name:
+                      type: string
+                    quantity:
+                      type: integer
+                    price:
+                      type: number
+                    status:
+                      type: string
+                  required:
+                  - customer_id
+                  - product_name
+                  - quantity
+                  - price
+                  - status
+              required:
+              - order
+    get:
+      summary: List orders by customer
+      tags:
+      - Orders
+      parameters:
+      - name: customer_id
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: orders found
+        '422':
+          description: customer not found
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000

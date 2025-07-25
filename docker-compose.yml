@@ -1,0 +1,50 @@
+version: '3.9'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "${RABBITMQ_PORT}:${RABBITMQ_PORT}"
+      - "${RABBITMQ_MANAGEMENT_PORT}:${RABBITMQ_MANAGEMENT_PORT}"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+
+  postgres:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  customer_service:
+    build: ./customer_service
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0 -p 3000 & ./bin/order_created_listener"
+    ports:
+      - "$CUSTOMER_SERVICE_PORT:3000"
+    depends_on:
+      - postgres
+      - rabbitmq
+    volumes:
+      - ./customer_service:/usr/src/app
+    env_file:
+      - ./customer_service/.env
+
+  order_service:
+    build: ./order_service
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0 -p $ORDER_SERVICE_PORT"
+    ports:
+      - "$ORDER_SERVICE_PORT:$ORDER_SERVICE_PORT"
+    depends_on:
+      - postgres
+      - rabbitmq
+    volumes:
+      - ./order_service:/usr/src/app
+    env_file:
+      - ./order_service/.env
+
+volumes:
+  pgdata:

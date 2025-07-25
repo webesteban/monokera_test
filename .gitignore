@@ -1,0 +1,80 @@
+# .gitignore para proyectos Ruby on Rails
+
+# Archivos de entorno
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# Logs y temporales
+/log/*
+!/log/.keep
+
+/tmp/*
+!/tmp/.keep
+
+# Archivos de PID
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# SQLite
+*.sqlite3
+*.sqlite3-journal
+
+# Archivos de configuración local
+/config/database.yml
+/config/master.key
+/config/credentials/*.key
+
+# Byebug / pry / debugging
+.byebug_history
+.pry_history
+
+# Bundle
+/vendor/bundle
+
+# Archivos de compilación y cache
+/public/assets
+/public/packs
+/public/packs-test
+/public/packs-dev
+/public/service-worker.js
+/public/manifest.json
+/node_modules
+/yarn-error.log
+.npm-debug.log
+.cache
+.sass-cache
+
+# ActiveStorage
+/storage/*
+!/storage/.keep
+
+# Coveralls / SimpleCov
+/coverage/
+
+# IDEs
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Docker
+*.pid
+*.log
+docker-compose.override.yml
+
+# Test / spec artifacts
+/spec/examples.txt
+
+# Capybara
+/capybara-*.html
+
+# Spring
+/tmp/spring
+
+# Credentials
+config/credentials.yml.enc
+

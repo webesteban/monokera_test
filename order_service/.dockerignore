@@ -1,0 +1,29 @@
+# Ignore bundler cache
+.bundle
+
+# Ignore logs and temp files
+log/*
+tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore database files
+*.sqlite3
+*.sqlite3-journal
+
+# Ignore test coverage and local environment files
+coverage/
+.env
+.env.*.local
+
+# Ignore system and editor files
+*.swp
+*.bak
+*.tmp
+*.DS_Store
+.idea
+.vscode
+
+# Ignore node/npm artifacts if present
+node_modules/
+yarn-error.log
