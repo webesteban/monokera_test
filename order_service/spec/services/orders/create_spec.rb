@@ -4,10 +4,19 @@ RSpec.describe Orders::Create, type: :service do
   describe '#call' do
     let(:params) do
       {
-        product_name: 'Super Producto',
-        quantity: 200,
         customer_id: customer_id,
-        price: 20.0
+        order_items_attributes: [
+          {
+            product_name: 'Super Producto', 
+            quantity: 50, 
+            price: 200.0
+          },
+          {
+            product_name: 'Super Producto 2', 
+            quantity: 200, 
+            price: 20.0
+          }
+        ]
       }
     end
 
@@ -30,7 +39,7 @@ RSpec.describe Orders::Create, type: :service do
       it 'returns the created order' do
         result = service_call
         expect(result).to be_a(Order)
-        expect(result.product_name).to eq('Super Producto')
+
       end
 
       it 'publishes an order.created event' do
@@ -67,7 +76,7 @@ RSpec.describe Orders::Create, type: :service do
           .and_return({ id: customer_id, name: 'Juan', orders_count: 0 })
       end
 
-      let(:params) { { product_name: nil, quantity: nil, price: nil,  customer_id: customer_id } }
+      let(:params) { {status: nil, customer_id: customer_id } }
 
       it 'raises ActiveRecord::RecordInvalid' do
         expect { service_call }.to raise_error(ActiveRecord::RecordInvalid)

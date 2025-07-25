@@ -11,8 +11,9 @@ module Orders
     end
 
     def call
-      validate_customer!
+      customer = find_customer
       order = Order.create!(params)
+      order.customer_data = customer
       publisher.publish_created(order)
       order
     rescue ActiveRecord::RecordInvalid => e
@@ -34,9 +35,10 @@ module Orders
       )
     end
 
-    def validate_customer!
+    def find_customer
       customer = customer_client.fetch_customer(params[:customer_id])
       raise CustomerNotFoundError, "Customer not found" if customer.nil?
+      customer
     end
   end
 end

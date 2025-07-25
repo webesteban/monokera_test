@@ -7,8 +7,8 @@ RSpec.describe Orders::List, type: :service do
     subject(:service_call) { described_class.new(customer_id: customer_id).call }
 
     context 'when customer exists' do
-      let!(:order1) { create(:order, customer_id: customer_id, product_name: 'Libro') }
-      let!(:order2) { create(:order, customer_id: customer_id, product_name: 'Café') }
+      let!(:order1) { create(:order, customer_id: customer_id, items_count: 1) }
+      let!(:order2) { create(:order, customer_id: customer_id, items_count: 2) }
 
       before do
         allow_any_instance_of(Http::CustomerService)

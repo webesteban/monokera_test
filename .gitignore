@@ -1,72 +1,66 @@
 
 .env
+.env.*
 
 # macOS
 .DS_Store
 
-/log/*
-!/log/.keep
+# Logs, cache, tmp
+**/log/*
+!**/log/.keep
+**/log/
 
-/tmp/*
-!/tmp/.keep
+**/tmp/*
+!**/tmp/.keep
+**/tmp/
 
-/tmp/pids/*
-!/tmp/pids/
-!/tmp/pids/.keep
+# PIDs en tmp
+**/tmp/pids/*
+!**/tmp/pids/
+!**/tmp/pids/.keep
 
-*.sqlite3
-*.sqlite3-journal
+# Storage de ActiveStorage
+**/storage/*
+!**/storage/.keep
 
-/config/database.yml
-/config/master.key
-/config/credentials/*.key
+# SQLite (por si algún servicio usa SQLite)
+**/*.sqlite3
+**/*.sqlite3-journal
 
-# Byebug / pry / debugging
+# Credentials
+**/config/master.key
+**/config/credentials/*.key
+**/config/credentials.yml.enc
+**/config/database.yml
+
+# Bundle vendor
+**/vendor/bundle
+
+# Assets, packs & node_modules
+**/public/assets
+**/public/packs*
+**/public/manifest.json
+**/node_modules
+**/.cache
+
+# Debugging
 .byebug_history
 .pry_history
-
-# Bundle
-/vendor/bundle
-
-/public/assets
-/public/packs
-/public/packs-test
-/public/packs-dev
-/public/service-worker.js
-/public/manifest.json
-/node_modules
-/yarn-error.log
-.npm-debug.log
-.cache
-.sass-cache
-
-# ActiveStorage
-/storage/*
-!/storage/.keep
-
-# Coveralls / SimpleCov
-/coverage/
+**/coverage/
 
 # IDEs
-*.swp
-*.swo
 .idea/
 .vscode/
+*.swp
+*.swo
+
+# Yarn/npm
+yarn-error.log
+npm-debug.log
 
 # Docker
 *.pid
 *.log
 docker-compose.override.yml
 
-# Test / spec artifacts
-/spec/examples.txt
-
-# Capybara
-/capybara-*.html
-
-# Spring
-/tmp/spring
-
-# Credentials
-config/credentials.yml.enc
-
+**/tmp/spring

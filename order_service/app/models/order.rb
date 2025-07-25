@@ -1,4 +1,9 @@
 class Order < ApplicationRecord
+  attr_accessor :customer_data
+  
+  has_many :order_items, dependent: :destroy
+  accepts_nested_attributes_for :order_items
+
   enum status: {
       pending: "pending",
       confirmed: "confirmed",
@@ -6,8 +11,6 @@ class Order < ApplicationRecord
       cancelled: "cancelled"
     }, _prefix: true
   
-  validates :customer_id, :product_name, :quantity, :price, :status, presence: true
-  validates :quantity, numericality: { only_integer: true, greater_than: 0 }
-  validates :price, numericality: { greater_than_or_equal_to: 0.0 }
+  validates :customer_id, :status, presence: true
   validates :status, inclusion: { in: statuses.keys }
 end

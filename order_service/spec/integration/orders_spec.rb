@@ -13,20 +13,27 @@ RSpec.describe 'Orders API', type: :request do
             type: :object,
             properties: {
               customer_id: { type: :integer },
-              product_name: { type: :string },
-              quantity: { type: :integer },
-              price: { type: :number },
-              status: { type: :string }
+              order_items_attributes: {
+                type: :array,
+                items: {
+                  type: :object,
+                  properties: {
+                    product_name: { type: :string },
+                    quantity: { type: :integer },
+                    price: { type: :number }
+                  },
+                  required: %w[product_name quantity price]
+                }
+              }
             },
-            required: %w[customer_id product_name quantity price status]
+            required: ['customer_id', 'order_items_attributes']
           }
         },
         required: ['order']
       }
 
       response '201', 'order created' do
-        let(:existing_customer_id) { '1'
-         }
+        let(:existing_customer_id) { 1 }
 
         before do
           allow_any_instance_of(Http::CustomerService).to receive(:fetch_customer)
@@ -38,10 +45,10 @@ RSpec.describe 'Orders API', type: :request do
           {
             order: {
               customer_id: existing_customer_id,
-              product_name: 'Product',
-              quantity: 2,
-              price: 19.99,
-              status: 'pending'
+              order_items_attributes: [
+                { product_name: 'Camisa', quantity: 2, price: 29.99 },
+                { product_name: 'Zapatos', quantity: 1, price: 59.99 }
+              ]
             }
           }
         end
@@ -62,10 +69,9 @@ RSpec.describe 'Orders API', type: :request do
           {
             order: {
               customer_id: nonexistent_customer_id,
-              product_name: 'Product',
-              quantity: 2,
-              price: 19.99,
-              status: 'pending'
+              order_items_attributes: [
+                { product_name: 'Camisa', quantity: 2, price: 29.99 }
+              ]
             }
           }
         end
@@ -89,12 +95,12 @@ RSpec.describe 'Orders API', type: :request do
             .with(existing_customer_id)
             .and_return({ id: existing_customer_id, name: 'Test User' })
 
-          Order.create!(
-            customer_id: existing_customer_id,
-            product_name: 'Test Product',
-            quantity: 1,
-            price: 10.0,
-            status: 'confirmed'
+          order = Order.create!(
+            customer_id: existing_customer_id
+          )
+
+          order.order_items.create!(
+            product_name: 'Camisa', quantity: 2, price: 29.99
           )
         end
 

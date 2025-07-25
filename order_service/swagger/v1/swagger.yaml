@@ -26,20 +26,24 @@ paths:
                   properties:
                     customer_id:
                       type: integer
-                    product_name:
-                      type: string
-                    quantity:
-                      type: integer
-                    price:
-                      type: number
-                    status:
-                      type: string
+                    order_items_attributes:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          product_name:
+                            type: string
+                          quantity:
+                            type: integer
+                          price:
+                            type: number
+                        required:
+                        - product_name
+                        - quantity
+                        - price
                   required:
                   - customer_id
-                  - product_name
-                  - quantity
-                  - price
-                  - status
+                  - order_items_attributes
               required:
               - order
     get:

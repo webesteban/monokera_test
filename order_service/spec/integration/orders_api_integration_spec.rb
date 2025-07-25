@@ -7,9 +7,18 @@ RSpec.describe 'Orders API Integration', type: :request do
     { 
       order: {
         customer_id: customer_id,
-        product_name: 'Camisa',
-        quantity: 3,
-        price: '29.99'
+        order_items_attributes: [
+          {
+            product_name: 'Super Producto', 
+            quantity: 50, 
+            price: 25.0
+          },
+          {
+            product_name: 'Super Producto 2', 
+            quantity: 200, 
+            price: 20.0
+          }
+        ]
       }   
     }
   end
@@ -30,7 +39,6 @@ RSpec.describe 'Orders API Integration', type: :request do
 
     body = JSON.parse(response.body)
     expect(body['customer_id']).to eq(customer_id)
-    expect(body['product_name']).to eq('Camisa')
 
     expect(mock_publisher).to have_received(:publish_created).once
   end

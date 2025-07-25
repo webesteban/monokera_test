@@ -12,10 +12,9 @@ module Orders
     end
 
     def call
-      validate_customer!
-      Order.where(customer_id: customer_id).page(page).per(per_page)
-
-
+      customer = find_customer
+      orders = Order.where(customer_id: customer_id).page(page).per(per_page)
+      orders.each { |order| order.customer_data = customer }
     end
 
     private
@@ -24,9 +23,10 @@ module Orders
       @customer_client ||= Http::CustomerService.new
     end
 
-    def validate_customer!
+    def find_customer
       customer = customer_client.fetch_customer(customer_id)
       raise CustomerNotFoundError, "Customer not found" if customer.nil?
+      customer
     end
   end
 end
